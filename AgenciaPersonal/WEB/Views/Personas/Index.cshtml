@@ -1,0 +1,33 @@
+﻿@model List<ENTITIES.persona>
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PERSONAS</title>
+</head>
+<body>
+    <div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <td scope="col">@Html.DisplayName("Nombre")</td>
+                    <td scope="col">@Html.DisplayName("Apellido")</td>
+                    <td scope="col">@Html.DisplayName("DNI")</td>
+                </tr>
+            </thead>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(l => p.nombre)</td>
+                    <td>@Html.DisplayFor(l => p.apellido)</td>
+                    <td>@Html.DisplayFor(l => p.dni)</td>
+                </tr>
+            }
+        </table>
+        
+    </div>
+</body>
+</html>
