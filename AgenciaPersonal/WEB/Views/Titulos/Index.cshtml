@@ -1,0 +1,31 @@
+﻿@model List<ENTITIES.titulo>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">@Html.DisplayName("Codigo")</th>
+                    <th scope="col">@Html.DisplayName("Descripcion")</th>
+                    <th scope="col">@Html.DisplayName("Nivel")</th>
+                </tr>
+            </thead>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(l => p.cod_titulo)</td>
+                    <td>@Html.DisplayFor(l => p.desc_titulo)</td>
+                    <td>@Html.DisplayFor(l => p.tipo_titulo)</td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>

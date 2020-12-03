@@ -1,0 +1,32 @@
+﻿@model List<ENTITIES.empresa>
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EMPRESAS</title>
+</head>
+<body>
+    <div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">@Html.DisplayName("CUIL")</th>
+                    <th scope="col">@Html.DisplayName("Razon Social")</th>
+                    <th scope="col">@Html.DisplayName("E-mail")</th>
+                </tr>
+            </thead>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(l=> p.cuit)</td>
+                    <td>@Html.DisplayFor(l => p.razon_social)</td>
+                    <td>@Html.DisplayFor(l => p.e_mail)</td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>

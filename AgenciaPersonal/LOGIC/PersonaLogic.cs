@@ -23,5 +23,11 @@ namespace LOGIC
             return AgenciaContext.personas.FirstOrDefault(p => p.dni.Equals(key));
         }
 
+        public void AddPerson(persona newEntity)
+        {
+            AgenciaContext.personas.Add(newEntity);
+            AgenciaContext.SaveChanges();
+        }
+
     }
 }

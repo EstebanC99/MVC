@@ -1,33 +1,165 @@
 ﻿@model List<ENTITIES.persona>
 
-
+@{ 
+    Html.EnableClientValidation(true);
+}
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>PERSONAS</title>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js">
+        $('#selectedRow').on('click', function () {
+            @{ViewBag.SelectedP = Model.Find(l => l.dni.Equals(p.dni));}
+        });
+    </script>
+
+
 </head>
 <body>
     <div>
-        <table class="table">
+        <table class="table table-hover">
             <thead class="thead-dark">
                 <tr>
-                    <td scope="col">@Html.DisplayName("Nombre")</td>
-                    <td scope="col">@Html.DisplayName("Apellido")</td>
-                    <td scope="col">@Html.DisplayName("DNI")</td>
+                    <th scope="col">@Html.DisplayName("DNI")</th>
+                    <th scope="col">@Html.DisplayName("Nombre")</th>
+                    <th scope="col">@Html.DisplayName("Apellido")</th>
+                    <th scope="col">@Html.DisplayName("Nacimiento")</th>
+                    <th scope="col">@Html.DisplayName("Telefono")</th>
+                    <th scope="col">@Html.DisplayName("Ingreso")</th>
                 </tr>
             </thead>
             @foreach (var p in Model)
             {
-                <tr>
+                <tr style="cursor:pointer" data-toggle="modal" data-target="#modifPersonaModal" id="selectedRow">
+                    <td>@Html.DisplayFor(l => p.dni)</td>
                     <td>@Html.DisplayFor(l => p.nombre)</td>
                     <td>@Html.DisplayFor(l => p.apellido)</td>
-                    <td>@Html.DisplayFor(l => p.dni)</td>
+                    <td>@Html.DisplayFor(l => p.fecha_nacimiento)</td>
+                    <td>@Html.DisplayFor(l => p.Telefono)</td>
+                    <td>@Html.DisplayFor(l => p.fecha_registro_agencia)</td>
                 </tr>
             }
         </table>
-        
+
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cargarPersonaModal">Ingresar persona</button>
+        <!-- MODAL DE CARGA -->
+        <div class="modal fade" id="cargarPersonaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Persona</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @using (Html.BeginForm("LoadPerson", "Personas", FormMethod.Post))
+                    {
+                        <div class="modal-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    @Html.Label("Numero de DNI: ")
+                                    @Html.TextBox("dni", "", new { @name = "dni", placeholder = "11111111" })
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    @Html.Label("Nombre")
+                                    @Html.TextBox("nombre", "", new { @name = "nombre", placeholder = "Your name..." })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    @Html.Label("Apellido")
+                                    @Html.TextBox("apellido", "", new { @name = "apellido", placeholder = "Your last-name..." })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Fecha de nacimiento: ")
+                                @Html.TextBox("fecha_nacimiento", "", new { @name = "fecha_nacimiento", type = "date" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Direccion: ")
+                                @Html.TextBox("direccion", "", new { @name = "direccion", placeholder = "Street 000" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Telefono: ")
+                                @Html.TextBox("telefono", "", new { @name = "telefono", placeholder = "+5493364562256" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Fecha de ingreso: ")
+                                @Html.TextBox("fecha_ingreso", "", new { @name = "fecha_registro_agencia", type = "date" })
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-danger" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+
+        <!-- MODAL DE MODIFICACION -->
+        <div class="modal fade" id="modifPersonaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Persona</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @{ 
+                        ENTITIES.persona selectedP = ViewBag.selectedP;
+                    }
+                    @using (Html.BeginForm("LoadPerson", "Personas", FormMethod.Post))
+                    {
+                        <div class="modal-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    @Html.Label("Numero de DNI: ")
+                                    @Html.TextBoxFor(l => selectedP.dni)
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    @Html.Label("Nombre")
+                                    @Html.TextBox("nombre", "", new { @name = "nombre", placeholder = "Your name..." })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    @Html.Label("Apellido")
+                                    @Html.TextBox("apellido", "", new { @name = "apellido", placeholder = "Your last-name..." })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Fecha de nacimiento: ")
+                                @Html.TextBox("fecha_nacimiento", "", new { @name = "fecha_nacimiento", type = "date" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Direccion: ")
+                                @Html.TextBox("direccion", "", new { @name = "direccion", placeholder = "Street 000" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Telefono: ")
+                                @Html.TextBox("telefono", "", new { @name = "telefono", placeholder = "+5493364562256" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Fecha de ingreso: ")
+                                @Html.TextBox("fecha_ingreso", "", new { @name = "fecha_registro_agencia", type = "date" })
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-danger" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
     </div>
 </body>
 </html>

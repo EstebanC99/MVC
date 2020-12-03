@@ -1,4 +1,5 @@
-﻿using LOGIC;
+﻿using ENTITIES;
+using LOGIC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,13 @@ namespace WEB.Controllers
         {
             var personas = new PersonaLogic().GetAll();
             return View(personas);
+        }
+
+        [HttpPost]
+        public ActionResult LoadPerson(persona newPersona)
+        {
+            new PersonaLogic().AddPerson(newPersona);
+            return RedirectToAction("Index");
         }
     }
 }
